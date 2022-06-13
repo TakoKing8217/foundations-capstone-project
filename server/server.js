@@ -1,11 +1,16 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const app = express();
 
-app.use(cors());
 app.use(express.json());
-app.get("/easter", (req, res) => {
-  return "Yes it is";
-});
+app.use(express.static("public"));
+app.use(cors());
 
-app.listen(4000, console.log("Server running on 4000"));
+const controllerList = require(`./controller.js`);
+
+const { isItEaster } = controllerList;
+
+app.get("/asdf", isItEaster);
+
+app.listen(5500, () => console.log("Server running on 5500"));

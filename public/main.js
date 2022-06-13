@@ -1,4 +1,4 @@
-const mainURL = "http://localhost:5500/";
+const mainURL = "http://localhost:5500";
 const easterBtn = document.getElementById("is-it-easter");
 const midSection = document.getElementById("mid");
 
@@ -16,9 +16,8 @@ const addToList = (script) => {
 
 const isItReallyEaster = (event) => {
   event.preventDefault();
-  console.log("hit");
   axios
-    .get(`${mainURL}easter`)
+    .get(`${mainURL}/asdf`)
     .then((res) => {
       addToList(res.data);
     })
