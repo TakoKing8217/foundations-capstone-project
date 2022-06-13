@@ -1,0 +1,46 @@
+header {
+  background-color: black;
+  height: 150px;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+section {
+  display: flex;
+  text-align: center;
+}
+
+h1 {
+  color: white;
+  display: flex;
+  text-align: center;
+}
+
+h2 {
+  color: white;
+  font-size: xx-large;
+}
+#left-side {
+  width: 20%;
+  background-color: rgb(184, 104, 104);
+  height: 800px;
+}
+
+#mid {
+  width: 60%;
+  background-color: rgb(193, 182, 169);
+  display: flex;
+  justify-content:left;
+  flex-wrap: wrap;
+}
+
+#right-side {
+  width: 20%;
+  background-color: rgb(124, 124, 188);
+}
+button {
+  height: 20px;
+}
