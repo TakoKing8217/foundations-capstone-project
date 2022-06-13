@@ -12,7 +12,9 @@ section {
   display: flex;
   text-align: center;
 }
-
+li {
+  font-family: "Times New Roman", Times, serif;
+}
 h1 {
   color: white;
   display: flex;
@@ -25,21 +27,21 @@ h2 {
 }
 #left-side {
   width: 20%;
-  background-color: rgb(184, 104, 104);
+  background-color: rgb(124, 188, 125);
   height: 800px;
 }
 
 #mid {
   width: 60%;
-  background-color: rgb(193, 182, 169);
-  display: flex;
-  justify-content:left;
-  flex-wrap: wrap;
+  background-color: rgb(205, 205, 205);
+  /* display: flex; */
+  /* justify-content: left; */
+  /* flex-wrap: wrap; */
 }
 
 #right-side {
   width: 20%;
-  background-color: rgb(124, 124, 188);
+  background-color: rgb(124, 188, 125);
 }
 button {
   height: 20px;

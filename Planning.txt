@@ -1,0 +1,17 @@
+MVP:
+#1 - User can post a date to the site. 
+#2 - User gets the date with the week the date is in the church calendar in a list. 
+#3 - User can delete an item from the list by clicking the [x]. 
+
+https://www.figma.com/file/lbiwv9bSU6mfeuL6QpooFJ/Church-Calendar?node-id=0%3A1
+
+App Name: Our Church Calendar
+
+List of Code to Do:
+1. Get all the basics setup with the html, css, js, controller, server, etc set up. 
+2. Experiment with http://calapi.inadiutorium.cz/api-doc to pull the info for the dates and such
+3: Get buttons that pull those dates and put them in a list
+4. Have a button to delete the individual parts of the list. 
+5. Use a date input to let users find their own dates and see what seasons of the churc calender those dates are in. 
+6. Style it. 
+
