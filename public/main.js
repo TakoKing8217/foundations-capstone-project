@@ -1,6 +1,8 @@
 const mainURL = "http://localhost:5500";
-const easterBtn = document.getElementById("is-it-easter");
+const seasonBtn = document.getElementById("what-season");
 const midSection = document.getElementById("mid");
+const today = document.getElementById("today");
+const seasonListBtn = document.getElementById("season-button");
 
 const isItEaster = (event) => {
   event.preventDefault();
@@ -9,12 +11,13 @@ const isItEaster = (event) => {
 };
 
 const addToList = (script) => {
+  today.innerHTML = "";
   const dateAdded = document.createElement("li");
-  dateAdded.textContent = script;
-  midSection.appendChild(dateAdded);
+  dateAdded.textContent = "Today is " + String(new Date()) + " " + script;
+  today.appendChild(dateAdded);
 };
 
-const isItReallyEaster = (event) => {
+const whatSeasonIsIt = (event) => {
   event.preventDefault();
   axios
     .get(`${mainURL}/asdf`)
@@ -24,4 +27,5 @@ const isItReallyEaster = (event) => {
     .catch((err) => console.log(err));
 };
 
-easterBtn.addEventListener("click", isItReallyEaster);
+seasonBtn.addEventListener("click", whatSeasonIsIt);
+seasonListBtn.addEventListener("click");

@@ -9,8 +9,8 @@ app.use(cors());
 
 const controllerList = require(`./controller.js`);
 
-const { isItEaster } = controllerList;
+const { lastDate } = controllerList;
 
-app.get("/asdf", isItEaster);
+app.get("/asdf", lastDate);
 
 app.listen(5500, () => console.log("Server running on 5500"));
