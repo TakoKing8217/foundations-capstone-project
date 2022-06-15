@@ -53,7 +53,28 @@ let weekDays = {
   Sun: 7,
 };
 
-let possibleFuture = ['new year','christmas','epiphany','ash wednesday','easter','pentacost']
+let possibleFuture = [
+  "new year",
+  "christmas",
+  "epiphany",
+  "ash wednesday",
+  "easter",
+  "pentacost",
+  "new year",
+  "christmas",
+  "epiphany",
+  "ash wednesday",
+  "easter",
+  "pentacost",
+];
+
+const upcomingHolidays = (lastHoliday) => {
+  let j = 0;
+  for (let i = 0; i < possibleFuture; i++) {
+    if (lastHoliday === possibleFuture[i]) {
+    }
+  }
+};
 
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
@@ -96,11 +117,39 @@ const getPentacost = (year) => {
   return pentaDate;
 };
 
-let dates = [];
-
 let today = new Date();
 let now = String(new Date());
 let thisYear = now.split(" ")[3];
+
+console.log(getNewYear(2021));
+console.log(getChristmas(2021));
+console.log(getEpiphany(2022));
+console.log(getAshWed(2022));
+console.log(getEaster(2022));
+console.log(getPentacost(2022));
+console.log(getNewYear(2022));
+console.log(getChristmas(2022));
+console.log(getEpiphany(2023));
+
+// Ash Wed was March 2, 2022
+// Easter was April 17, 2022
+// Pentacose was June 5, 2022
+
+let christmas = new Date(`December 25 2022`);
+let firstDay = new Date(0);
+let thisDay = new Date();
+let todaysMiliseconds = thisDay - firstDay;
+let oneDay = 86400000;
+let oneWeek = 604800000;
+let nextWeek = new Date(todaysMiliseconds + oneWeek);
+
+const weekAfterEaster = () => {
+  let timeBetween = thisDay - getEaster(2022);
+  let thisWeek = Math.floor(timeBetween / oneWeek);
+  return `It is week ${thisWeek} of Eastertide!`;
+};
+
+console.log(weekAfterEaster());
 
 module.exports = {
   isItEaster: (req, res) => {
@@ -162,18 +211,3 @@ module.exports = {
     for (let i = req.body; i < 5; i++) {}
   },
 };
-
-console.log(getNewYear(2021));
-console.log(getChristmas(2021));
-console.log(getEpiphany(2022));
-console.log(getAshWed(2022));
-console.log(getEaster(2022));
-console.log(getPentacost(2022));
-console.log(getNewYear(2022));
-console.log(getChristmas(2022));
-console.log(getEpiphany(2023));
-
-// Ash Wed was March 2, 2022
-// Easter was April 17, 2022
-// Pentacose was June 5, 2022
-
