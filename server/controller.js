@@ -15,7 +15,7 @@ let easter = {
 
 let monthsAndDays = {
   Jan: [1, 31],
-  Feb: [2, 28, 31],
+  Feb: [2, 28, 29],
   Mar: [3, 31],
   Apr: [4, 30],
   May: [5, 31],
@@ -43,6 +43,16 @@ let months = {
   Dec: 12,
 };
 
+let weekDays = {
+  Mon: 1,
+  Tue: 2,
+  Wed: 3,
+  Thu: 4,
+  Fri: 5,
+  Sat: 6,
+  Sun: 7,
+};
+
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
@@ -50,6 +60,23 @@ Date.prototype.addDays = function (days) {
 };
 
 //basic stuff: get the easter date
+// we need functions to get: Christian New Year, Christmas, Epiphany, Ash Wednesday, Easter, Pentacost
+
+const getChristmas = (year) => {
+  const christmasDate = new Date(`December 25 ${year}`);
+  return christmasDate;
+};
+
+const getNewYear = (year) => {
+  const christmasDate = String(new Date(`December 25 ${year}`));
+  const christmasArr = christmasDate.split(" ");
+  let newYearDate = getChristmas(year).addDays(
+    -(21 + weekDays[christmasArr[0]])
+  );
+  return newYearDate;
+};
+
+getNewYear(2022);
 const getEaster = (year) => {
   const easterDate = new Date(easter[year].join(" "));
   return easterDate;
@@ -62,6 +89,8 @@ const getPentacost = (year) => {
   let pentaDate = getEaster(year).addDays(49);
   return pentaDate;
 };
+
+let dates = [];
 
 let today = new Date();
 let now = String(new Date());
@@ -122,8 +151,14 @@ module.exports = {
     }
     res.status(200).send(answer);
   },
+
+  upcomingDates: (req, res) => {
+    for (let i = req.body; i < 5; i++) {}
+  },
 };
 
+console.log(getChristmas(2022));
+console.log(getNewYear(2022));
 // Ash Wed was March 2, 2022
 // Easter was April 17, 2022
 // Pentacose was June 5, 2022
