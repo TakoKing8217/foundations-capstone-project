@@ -33,20 +33,20 @@ let fullWeekDays = {
   Sun: `Sunday`,
 };
 
-let possibleFuture = [
-  "new year",
-  "christmas",
-  "epiphany",
-  "ash wednesday",
-  "easter",
-  "pentacost",
-  "new year",
-  "christmas",
-  "epiphany",
-  "ash wednesday",
-  "easter",
-  "pentacost",
-];
+let fullMonthNames = {
+  Jan: "January",
+  Feb: "February",
+  Mar: "March",
+  Apr: "April",
+  May: "May",
+  Jun: "June",
+  Jul: "July",
+  Aug: "August",
+  Sep: "September",
+  Oct: "October",
+  Nov: "November",
+  Dec: "December",
+};
 
 const upcomingHolidays = (lastHoliday) => {
   let j = 0;
@@ -65,8 +65,8 @@ Date.prototype.addDays = function (days) {
 //basic stuff: get the easter date
 // Ash Wed was March 2, 2022
 // Easter was April 17, 2022
-// Pentacose was June 5, 2022
-// we need functions to get: Christian New Year, Christmas, Epiphany, Ash Wednesday, Easter, Pentacost
+// Pentecost was June 5, 2022
+// we need functions to get: Christian New Year, Christmas, Epiphany, Ash Wednesday, Easter, Pentecost
 
 const getChristmas = (year) => {
   const christmasDate = new Date(`December 25 ${year}`);
@@ -95,28 +95,34 @@ const getAshWed = (year) => {
   let ashDate = getEaster(year).addDays(-46);
   return ashDate;
 };
-const getPentacost = (year) => {
-  let pentaDate = getEaster(year).addDays(49);
-  return pentaDate;
+const getPentecost = (year) => {
+  let penteDate = getEaster(year).addDays(49);
+  return penteDate;
 };
 
-console.log(getNewYear(2021));
-console.log(getChristmas(2021));
-console.log(getEpiphany(2022));
-console.log(getAshWed(2022));
-console.log(getEaster(2022));
-console.log(getPentacost(2022));
-
 let today = new Date();
-let firstDay = new Date(0);
 let thisYear = String(new Date()).split(" ")[3];
 let smolDayOfTheWeek = String(new Date()).split(" ")[0];
 let dayOfTheWeek = fullWeekDays[smolDayOfTheWeek];
 let oneDay = 86400000;
 let oneWeek = 604800000;
-let summary = "It is ${dayOfTheWeek}, week ${thisWeek} of";
+let nextYear = String(new Date()).split(" ")[3];
+let nextYearA = nextYear++;
 
-console.log({ thisYear });
+let possibleFuture = {
+  1: [getEpiphany(thisYear), "Epiphany"],
+  2: [getAshWed(thisYear), "Ash Wednesday"],
+  3: [getEaster(thisYear), "Easter"],
+  4: [getPentecost(thisYear), "Pentecost"],
+  5: [getNewYear(thisYear), "first day of Advent"],
+  6: [getChristmas(thisYear), "Christmas"],
+  7: [getEpiphany(nextYear), "Epiphany"],
+  8: [getAshWed(nextYear), "Ash Wednesday"],
+  9: [getEaster(nextYear), "Easter"],
+  10: [getPentecost(nextYear), "Pentecost"],
+  11: [getNewYear(nextYear), "first day of Advent"],
+  12: [getChristmas(nextYear), "Christmas"],
+};
 
 const weekInAdvent = () => {
   let timeBetween = today - getNewYear(thisYear);
@@ -144,83 +150,78 @@ const weekInEastertide = () => {
   return `It is ${dayOfTheWeek}, week ${thisWeek} of Ordinary Time!`;
 };
 const weekInOrdinaryTime = () => {
-  let timeBetween = today - getPentacost(thisYear);
+  let timeBetween = today - getPentecost(thisYear);
   let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
   return `It is ${dayOfTheWeek}, week ${thisWeek} of Ordinary Time!`;
 };
 
-console.log(weekInOrdinaryTime());
+nextDate = () => {
+  if (today < getAshWed(thisYear)) {
+    return weekInLent();
+  } else if (today < getEaster(thisYear)) {
+    return weekInEastertide();
+  } else if (today < getPentecost(thisYear)) {
+    return weekInOrdinaryTime();
+  } else {
+    return weekInAdvent();
+  }
+};
 
 module.exports = {
-  isItEaster: (req, res) => {
-    let time = Date().split(" ");
-    for (let i = 2022; i < 2029; i++) {
-      if (easter[i][3] === time[3]) {
-        if (months[easter[i][1]] < months[time[1]]) {
-          var answer = "Easter has passed for this year.";
-        } else if (months[easter[i][1]] > months[time[1]]) {
-          var answer = "Easter is on it's way!";
-        } else if (months[easter[i][1]] === months[time[1]]) {
-          if (easter[i][2] < time[2]) {
-            var answer = "Easter has passed.";
-          }
-        }
-      }
-    }
-    res.status(200).send(answer);
-  },
-  nextDate: () => {
-    if (today < getAshWed(thisYear)) {
-      return weekInLent();
-    } else if (today < getEaster(thisYear)) {
-      return weekInEastertide();
-    } else if (today < getPentacost(thisYear)) {
-      return weekInOrdinaryTime();
-    } else {
-      return weekInAdvent();
-    }
-  },
-  // lastDate: (req, res) => {
-  //   let answer;
-  //   if (today > getPentacost(thisYear)) {
-  //     answer = "It's ordinary time!";
-  //   } else if (today < getEaster(thisYear)) {
-  //     answer = "It's eastertide!";
-  //   } else if (today < getAshWed(thisYear)) {
-  //     answer = "It's Lent!";
-  //   } else {
-  //     answer = "It's sometime at the beginning of the year!";
-  //   }
-  //   res.status(200).send(answer);
-  // },
   lastDate: (req, res) => {
     let answer;
-    if (today > getPentacost(thisYear)) {
+    if (today > getChristmas(thisYear)) {
+      answer = weekInChristmastide();
+    } else if (today > getNewYear(thisYear)) {
       answer = weekInOrdinaryTime();
-    } else if (today < getEaster(thisYear)) {
+    } else if (today > getPentecost(thisYear)) {
+      answer = weekInOrdinaryTime();
+    } else if (today > getEaster(thisYear)) {
       answer = weekInEastertide();
-    } else if (today < getAshWed(thisYear)) {
+    } else if (today > getAshWed(thisYear)) {
       answer = weekInLent();
+    } else if (today > getEpiphany(thisYear)) {
+      answer = weekInEpiphany();
     } else {
-      answer = weekInAdvent();
+      answer = weekInChristmastide();
     }
     res.status(200).send(answer);
   },
-  lastDateReq: (req, res) => {
-    let answer;
-    if (req.body > getPentacost(thisYear)) {
-      answer = "It's ordinary time!";
-    } else if (req.body < getEaster(thisYear)) {
-      answer = "It's eastertide!";
-    } else if (req.body < getAshWed(thisYear)) {
-      answer = "It's Lent!";
-    } else {
-      answer = "It's sometime at the beginning of the year!";
-    }
-    res.status(200).send(answer);
+  dateList: (req, res) => {
+    res.status(200).send("money");
   },
-
   upcomingDates: (req, res) => {
-    for (let i = req.body; i < 5; i++) {}
+    let list = [];
+    let next;
+    if (today > getChristmas(thisYear)) {
+      console.log("xmas");
+      next = 1;
+    } else if (today > getNewYear(thisYear)) {
+      console.log("advent");
+      next = 6;
+    } else if (today > getPentecost(thisYear)) {
+      console.log("ordinary");
+      next = 5;
+    } else if (today > getEaster(thisYear)) {
+      console.log("easter");
+      next = 4;
+    } else if (today > getAshWed(thisYear)) {
+      console.log("lent");
+      next = 3;
+    } else if (today > getEpiphany(thisYear)) {
+      console.log("epiphany");
+      next = 2;
+    } else {
+      next = 1;
+    }
+    for (let i = next; i < next + 6; i++) {
+      let arr = String(possibleFuture[i][0]).split(" ");
+      let theDate = `${fullWeekDays[arr[0]]}, ${
+        fullMonthNames[arr[1]]
+      } ${+arr[2]} ${arr[3]}`;
+      let date = `The coming ${possibleFuture[i][1]} is on ${theDate}`;
+      list.push(date);
+    }
+    res.status(200).send(list);
   },
 };

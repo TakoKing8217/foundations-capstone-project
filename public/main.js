@@ -1,31 +1,54 @@
-const mainURL = "http://localhost:5500";
+const mainURL = "http://localhost:5501";
 const seasonBtn = document.getElementById("what-season");
 const midSection = document.getElementById("mid");
 const today = document.getElementById("today");
 const seasonListBtn = document.getElementById("season-button");
+const upcomingList = document.getElementById("upcoming");
 
-const isItEaster = (event) => {
-  event.preventDefault();
-  console.log("hit");
-  addToList(" It's Easter ");
-};
-
-const addToList = (script) => {
+const addToCenterList = (script) => {
   today.innerHTML = "";
   const dateAdded = document.createElement("div");
   dateAdded.textContent = script;
   today.appendChild(dateAdded);
 };
 
-const whatSeasonIsIt = (event) => {
+const addToRightList = (script) => {
+  const dateAdded = document.createElement("li");
+  dateAdded.textContent = script;
+  upcomingList.appendChild(dateAdded);
+};
+
+const currSeason = (event) => {
   event.preventDefault();
   axios
     .get(`${mainURL}/what-season-now`)
     .then((res) => {
-      addToList(res.data);
+      addToCenterList(res.data);
     })
     .catch((err) => console.log(err));
 };
 
-seasonBtn.addEventListener("click", whatSeasonIsIt);
-seasonListBtn.addEventListener("click");
+const dateSeason = (date) => {
+  axios
+    .get(`${mainURL}/add-date`, date)
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log(err));
+};
+
+const upcomingDates = () => {
+  axios
+    .get(`${mainURL}/upcoming`)
+    .then((res) => {
+      let datesArr = res.data;
+      // res.body will be an array of information.
+      for (let i = 0; i < res.data.length; i++) {
+        addToRightList(datesArr[i]);
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+seasonBtn.addEventListener("click", currSeason);
+seasonListBtn.addEventListener("click", dateSeason);
+
+upcomingDates();

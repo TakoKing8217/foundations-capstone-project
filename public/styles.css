@@ -15,7 +15,7 @@ section {
 li {
   font-family: "Times New Roman", Times, serif;
   padding: 10px;
-  font-size: x-large;
+  font-size: large;
 }
 h1 {
   color: white;
@@ -45,7 +45,7 @@ h2 {
   width: 20%;
   background-color: rgb(124, 188, 125);
 }
-button {
+#what-season {
   margin-top: 20px;
   height: 100px;
   width: 100px;

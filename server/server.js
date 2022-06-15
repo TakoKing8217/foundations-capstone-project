@@ -9,8 +9,10 @@ app.use(cors());
 
 const controllerList = require(`./controller.js`);
 
-const { lastDate } = controllerList;
+const { lastDate, dateList, upcomingDates } = controllerList;
 
 app.get("/what-season-now", lastDate);
+app.get("/add-date", dateList);
+app.get("/upcoming", upcomingDates);
 
-app.listen(5500, () => console.log("Server running on 5500"));
+app.listen(5501, () => console.log("Server running on 5501"));
