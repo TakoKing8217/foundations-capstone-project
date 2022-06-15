@@ -11,6 +11,6 @@ const controllerList = require(`./controller.js`);
 
 const { lastDate } = controllerList;
 
-app.get("/asdf", lastDate);
+app.get("/what-season-now", lastDate);
 
 app.listen(5500, () => console.log("Server running on 5500"));

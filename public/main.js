@@ -12,15 +12,15 @@ const isItEaster = (event) => {
 
 const addToList = (script) => {
   today.innerHTML = "";
-  const dateAdded = document.createElement("li");
-  dateAdded.textContent = "Today is " + String(new Date()) + " " + script;
+  const dateAdded = document.createElement("div");
+  dateAdded.textContent = script;
   today.appendChild(dateAdded);
 };
 
 const whatSeasonIsIt = (event) => {
   event.preventDefault();
   axios
-    .get(`${mainURL}/asdf`)
+    .get(`${mainURL}/what-season-now`)
     .then((res) => {
       addToList(res.data);
     })
