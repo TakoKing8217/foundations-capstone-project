@@ -53,6 +53,8 @@ let weekDays = {
   Sun: 7,
 };
 
+let possibleFuture = ['new year','christmas','epiphany','ash wednesday','easter','pentacost']
+
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
@@ -76,7 +78,11 @@ const getNewYear = (year) => {
   return newYearDate;
 };
 
-getNewYear(2022);
+const getEpiphany = (year) => {
+  let epiphanyDate = getChristmas(year - 1).addDays(12);
+  return epiphanyDate;
+};
+
 const getEaster = (year) => {
   const easterDate = new Date(easter[year].join(" "));
   return easterDate;
@@ -157,8 +163,17 @@ module.exports = {
   },
 };
 
-console.log(getChristmas(2022));
+console.log(getNewYear(2021));
+console.log(getChristmas(2021));
+console.log(getEpiphany(2022));
+console.log(getAshWed(2022));
+console.log(getEaster(2022));
+console.log(getPentacost(2022));
 console.log(getNewYear(2022));
+console.log(getChristmas(2022));
+console.log(getEpiphany(2023));
+
 // Ash Wed was March 2, 2022
 // Easter was April 17, 2022
 // Pentacose was June 5, 2022
+
