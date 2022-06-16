@@ -20,5 +20,5 @@ app.get("/upcoming", upcomingDates);
 app.delete("/list/:id", deleteValue);
 
 
-const port = process.env.PORT || 5005;
+const port = process.env.SERVER_PORT || 5005;
 app.listen(port, () => console.log(`Listening on ${port}`));
