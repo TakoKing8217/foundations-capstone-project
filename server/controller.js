@@ -1,3 +1,21 @@
+require("dotenv").config();
+
+const { CONNECTION_STRING } = process.env;
+
+const Sequelize = require("sequelize");
+
+const sequelize = new Sequelize(CONNECTION_STRING, {
+  dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
+});
+
+const getMoney = () => {
+sequelize.query(`SELECT * FROM easters`)
+}
 let easter = {
   2021: ["Sun", "Apr", "04", "2021"],
   2022: ["Sun", "Apr", "17", "2022"],
@@ -126,6 +144,13 @@ const weekInChristmastide = (date) => {
   let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
   return `is ${weekday}, week ${thisWeek} of Christmastide!`;
 };
+const weekInChristmastideNewYear = (date) => {
+  let year = (" " + String(date)).slice(1).split(" ")[3];
+  let weekday = fullWeekDays[(" " + String(date)).slice(1).split(" ")[0]];
+  let timeBetween = date - getChristmas(year - 1);
+  let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
+  return `is ${weekday}, week ${thisWeek} of Christmastide!`;
+};
 const weekInEpiphany = (date) => {
   let year = (" " + String(date)).slice(1).split(" ")[3];
   let weekday = fullWeekDays[(" " + String(date)).slice(1).split(" ")[0]];
@@ -155,23 +180,25 @@ const weekInOrdinaryTime = (date) => {
   return `is ${weekday}, week ${thisWeek} of Ordinary Time!`;
 };
 
+let daysAskedFor = [];
+
 module.exports = {
   lastDate: (req, res) => {
     let answer;
     if (today > getChristmas(thisYear)) {
-      answer = "It " + weekInChristmastide(today);
+      answer = "Today " + weekInChristmastide(today);
     } else if (today > getNewYear(thisYear)) {
-      answer = "It " + weekInOrdinaryTime(today);
+      answer = "Today " + weekInOrdinaryTime(today);
     } else if (today > getPentecost(thisYear)) {
-      answer = "It " + weekInOrdinaryTime(today);
+      answer = "Today " + weekInOrdinaryTime(today);
     } else if (today > getEaster(thisYear)) {
-      answer = "It " + weekInEastertide(today);
+      answer = "Today " + weekInEastertide(today);
     } else if (today > getAshWed(thisYear)) {
-      answer = "It " + weekInLent(today);
+      answer = "Today " + weekInLent(today);
     } else if (today > getEpiphany(thisYear)) {
-      answer = "It " + weekInEpiphany(today);
+      answer = "Today " + weekInEpiphany(today);
     } else {
-      answer = "It " + weekInChristmastide(today);
+      answer = "Today " + weekInChristmastide(today);
     }
     res.status(200).send(answer);
   },
@@ -212,8 +239,8 @@ module.exports = {
   },
 
   dateList: (req, res) => {
-    let date = new Date(req.body.value);
-    let thatDate = new Date(req.body.value);
+    let date = new Date(req.body.value).addDays(1);
+    let thatDate = new Date(req.body.value).addDays(1);
     let thatYear = String(thatDate).split(" ")[3];
     let answer;
     if (date > getChristmas(thatYear)) {
@@ -229,13 +256,18 @@ module.exports = {
     } else if (date > getEpiphany(thatYear)) {
       answer = weekInEpiphany(date);
     } else {
-      answer = weekInChristmastide(date);
+      answer = weekInChristmastideNewYear(date);
     }
-    let theWeekday = fullWeekDays[String(thatDate).split(" ")[0]];
     let monthName = fullMonthNames[String(thatDate).split(" ")[1]];
     let day = String(thatDate).split(" ")[2];
-    let prettyDate = `${theWeekday}, ${monthName} ${day} ${thatYear}`;
-    res.status(200).send(`${String(prettyDate)} ${String(answer)}`);
+    let prettyDate = `${monthName} ${day}, ${thatYear}`;
+    daysAskedFor.push(`${String(prettyDate)} ${String(answer)}`);
+    res.status(200).send(daysAskedFor);
+    console.log(String(answer), date);
+  },
+  deleteValue: (req, res) => {
+    const { id } = req.params;
+    console.log(id);
   },
 };
 

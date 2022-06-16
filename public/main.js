@@ -6,6 +6,7 @@ const seasonListBtn = document.getElementById("season-button");
 const upcomingList = document.getElementById("upcoming");
 const date = document.getElementById("input-date");
 const inputList = document.getElementById("input-list");
+// const deleteBtn
 
 const addToCenterList = (script) => {
   today.innerHTML = "";
@@ -18,13 +19,6 @@ const addToRightList = (script) => {
   const dateAdded = document.createElement("li");
   dateAdded.textContent = script;
   upcomingList.appendChild(dateAdded);
-};
-
-const addToLeftList = (script) => {
-  date.value = "";
-  const dateAdded = document.createElement("li");
-  dateAdded.textContent = script;
-  inputList.appendChild(dateAdded);
 };
 
 const currSeason = (event) => {
@@ -59,20 +53,42 @@ const upcomingDates = () => {
 
 const getDateInput = () => {
   console.log(date.value);
+  if (date.value == "") {
+    alert("Invalid Date");
+    return;
+  }
   axios
     .post(`${mainURL}/get-date`, { value: date.value })
     .then((res) => {
       console.log(res.data);
-      if (res.data.includes("Invalid Date")) {
+      if (res.data == "") {
         alert("Invalid date");
       } else {
-        addToLeftList(res.data);
+        inputList.innerHTML = "";
+        date.value = "";
+        for (let i = 0; i < res.data.length; i++) {
+          const dateAdded = document.createElement("div");
+          dateAdded.innerHTML = `<li>${res.data[i]}</li><button onclick="delDate(${i})">x</button> `;
+          inputList.appendChild(dateAdded);
+        }
       }
     })
     .catch((err) => console.log(err));
 };
 
+const getList = ()=> {
+  axios.get()
+}
+
+const delDate = (num) => {
+  axios
+    .delete(`${mainURL}/list/${num}`)
+    .then(() => {})
+    .catch((err) => console.log(err));
+};
+
 seasonBtn.addEventListener("click", currSeason);
 seasonListBtn.addEventListener("click", getDateInput);
+
 
 upcomingDates();

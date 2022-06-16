@@ -30,7 +30,7 @@ h2 {
 #left-side {
   width: 20%;
   background-color: rgb(124, 188, 125);
-  height: 800px;
+  height: 900px;
 }
 
 #mid {
@@ -39,11 +39,13 @@ h2 {
   /* display: flex; */
   /* justify-content: left; */
   /* flex-wrap: wrap; */
+  height: 900px;
 }
 
 #right-side {
   width: 20%;
   background-color: rgb(124, 188, 125);
+  height: 900px;
 }
 #what-season {
   margin-top: 20px;
