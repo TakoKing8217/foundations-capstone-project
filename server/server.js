@@ -14,7 +14,7 @@ const controllerList = require(`./controller.js`);
 const { lastDate, dateList, upcomingDates } = controllerList;
 
 app.get("/what-season-now", lastDate);
-app.get("/add-date", dateList);
+app.post("/get-date", dateList);
 app.get("/upcoming", upcomingDates);
 
 app.listen(SERVER_PORT, () => console.log(`up on ${SERVER_PORT}`));

@@ -4,6 +4,7 @@ const midSection = document.getElementById("mid");
 const today = document.getElementById("today");
 const seasonListBtn = document.getElementById("season-button");
 const upcomingList = document.getElementById("upcoming");
+const date = document.getElementById("input-date");
 
 const addToCenterList = (script) => {
   today.innerHTML = "";
@@ -48,7 +49,15 @@ const upcomingDates = () => {
     .catch((err) => console.log(err));
 };
 
+const getDateInput = () => {
+  console.log(date.value);
+  axios
+    .post(`${mainURL}/get-date`, { value: date.value })
+    .then((res) => {})
+    .catch((err) => console.log(err));
+};
+
 seasonBtn.addEventListener("click", currSeason);
-seasonListBtn.addEventListener("click", dateSeason);
+seasonListBtn.addEventListener("click", getDateInput);
 
 upcomingDates();

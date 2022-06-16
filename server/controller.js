@@ -187,9 +187,6 @@ module.exports = {
     }
     res.status(200).send(answer);
   },
-  dateList: (req, res) => {
-    res.status(200).send("money");
-  },
   upcomingDates: (req, res) => {
     let list = [];
     let next;
@@ -223,5 +220,27 @@ module.exports = {
       list.push(date);
     }
     res.status(200).send(list);
+  },
+  dateList: (req, res) => {
+    console.log(req.body.value);
+    let date = new Date(req.body.value);
+    console.log(date);
+    let answer;
+    if (date > getChristmas(thisYear)) {
+      answer = weekInChristmastide();
+    } else if (date > getNewYear(thisYear)) {
+      answer = weekInOrdinaryTime();
+    } else if (date > getPentecost(thisYear)) {
+      answer = weekInOrdinaryTime();
+    } else if (date > getEaster(thisYear)) {
+      answer = weekInEastertide();
+    } else if (date > getAshWed(thisYear)) {
+      answer = weekInLent();
+    } else if (date > getEpiphany(thisYear)) {
+      answer = weekInEpiphany();
+    } else {
+      answer = weekInChristmastide();
+    }
+    res.status(200).send("money");
   },
 };
