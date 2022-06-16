@@ -1,5 +1,3 @@
-// let time = Date();
-
 let easter = {
   2021: ["Sun", "Apr", "04", "2021"],
   2022: ["Sun", "Apr", "17", "2022"],
@@ -48,26 +46,13 @@ let fullMonthNames = {
   Dec: "December",
 };
 
-const upcomingHolidays = (lastHoliday) => {
-  let j = 0;
-  for (let i = 0; i < possibleFuture; i++) {
-    if (lastHoliday === possibleFuture[i]) {
-    }
-  }
-};
-
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
   return date;
 };
 
-//basic stuff: get the easter date
-// Ash Wed was March 2, 2022
-// Easter was April 17, 2022
-// Pentecost was June 5, 2022
-// we need functions to get: Christian New Year, Christmas, Epiphany, Ash Wednesday, Easter, Pentecost
-
+//functions for getting the dates based on the year
 const getChristmas = (year) => {
   const christmasDate = new Date(`December 25 ${year}`);
   return christmasDate;
@@ -100,6 +85,7 @@ const getPentecost = (year) => {
   return penteDate;
 };
 
+//some random declarations
 let today = new Date();
 let thisYear = String(new Date()).split(" ")[3];
 let smolDayOfTheWeek = String(new Date()).split(" ")[0];
@@ -109,6 +95,7 @@ let oneWeek = 604800000;
 let nextYear = String(new Date()).split(" ")[3];
 let nextYearA = nextYear++;
 
+// This object is used to pull upcoming dates.
 let possibleFuture = {
   1: [getEpiphany(thisYear), "Epiphany"],
   2: [getAshWed(thisYear), "Ash Wednesday"],
@@ -124,69 +111,71 @@ let possibleFuture = {
   12: [getChristmas(nextYear), "Christmas"],
 };
 
-const weekInAdvent = () => {
-  let timeBetween = today - getNewYear(thisYear);
+// these functions find specific dates in whatever year that date is from
+const weekInAdvent = (date) => {
+  let year = (" " + String(date)).slice(1).split(" ")[3];
+  let weekday = fullWeekDays[(" " + String(date)).slice(1).split(" ")[0]];
+  let timeBetween = date - getNewYear(year);
   let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
-  return `It is ${dayOfTheWeek}, week ${thisWeek} of Ordinary Time!`;
+  return `is ${weekday}, week ${thisWeek} of Advent!`;
 };
-const weekInChristmastide = () => {
-  let timeBetween = today - getEaster(thisYear);
+const weekInChristmastide = (date) => {
+  let year = (" " + String(date)).slice(1).split(" ")[3];
+  let weekday = fullWeekDays[(" " + String(date)).slice(1).split(" ")[0]];
+  let timeBetween = date - getChristmas(year);
   let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
-  return `It is ${dayOfTheWeek}, week ${thisWeek} of Ordinary Time!`;
+  return `is ${weekday}, week ${thisWeek} of Christmastide!`;
 };
-const weekInEpiphany = () => {
-  let timeBetween = today - getEaster(thisYear);
+const weekInEpiphany = (date) => {
+  let year = (" " + String(date)).slice(1).split(" ")[3];
+  let weekday = fullWeekDays[(" " + String(date)).slice(1).split(" ")[0]];
+  let timeBetween = date - getEpiphany(year);
   let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
-  return `It is ${dayOfTheWeek}, week ${thisWeek} of Ordinary Time!`;
+  return `is ${weekday}, week ${thisWeek} of Epiphany!`;
 };
-const weekInLent = () => {
-  let timeBetween = today - getEaster(thisYear);
+const weekInLent = (date) => {
+  let year = (" " + String(date)).slice(1).split(" ")[3];
+  let weekday = fullWeekDays[(" " + String(date)).slice(1).split(" ")[0]];
+  let timeBetween = date - getAshWed(year);
   let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
-  return `It is ${dayOfTheWeek}, week ${thisWeek} of Ordinary Time!`;
+  return `is ${weekday}, week ${thisWeek} of Lent!`;
 };
-const weekInEastertide = () => {
-  let timeBetween = today - getEaster(thisYear);
+const weekInEastertide = (date) => {
+  let year = (" " + String(date)).slice(1).split(" ")[3];
+  let weekday = fullWeekDays[(" " + String(date)).slice(1).split(" ")[0]];
+  let timeBetween = date - getEaster(year);
   let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
-  return `It is ${dayOfTheWeek}, week ${thisWeek} of Ordinary Time!`;
+  return `is ${weekday}, week ${thisWeek} of Eastertide!`;
 };
-const weekInOrdinaryTime = () => {
-  let timeBetween = today - getPentecost(thisYear);
+const weekInOrdinaryTime = (date) => {
+  let year = (" " + String(date)).slice(1).split(" ")[3];
+  let weekday = fullWeekDays[(" " + String(date)).slice(1).split(" ")[0]];
+  let timeBetween = date - getPentecost(year);
   let thisWeek = 1 + Math.floor(timeBetween / oneWeek);
-  return `It is ${dayOfTheWeek}, week ${thisWeek} of Ordinary Time!`;
-};
-
-nextDate = () => {
-  if (today < getAshWed(thisYear)) {
-    return weekInLent();
-  } else if (today < getEaster(thisYear)) {
-    return weekInEastertide();
-  } else if (today < getPentecost(thisYear)) {
-    return weekInOrdinaryTime();
-  } else {
-    return weekInAdvent();
-  }
+  return `is ${weekday}, week ${thisWeek} of Ordinary Time!`;
 };
 
 module.exports = {
   lastDate: (req, res) => {
     let answer;
     if (today > getChristmas(thisYear)) {
-      answer = weekInChristmastide();
+      answer = "It " + weekInChristmastide(today);
     } else if (today > getNewYear(thisYear)) {
-      answer = weekInOrdinaryTime();
+      answer = "It " + weekInOrdinaryTime(today);
     } else if (today > getPentecost(thisYear)) {
-      answer = weekInOrdinaryTime();
+      answer = "It " + weekInOrdinaryTime(today);
     } else if (today > getEaster(thisYear)) {
-      answer = weekInEastertide();
+      answer = "It " + weekInEastertide(today);
     } else if (today > getAshWed(thisYear)) {
-      answer = weekInLent();
+      answer = "It " + weekInLent(today);
     } else if (today > getEpiphany(thisYear)) {
-      answer = weekInEpiphany();
+      answer = "It " + weekInEpiphany(today);
     } else {
-      answer = weekInChristmastide();
+      answer = "It " + weekInChristmastide(today);
     }
     res.status(200).send(answer);
   },
+
   upcomingDates: (req, res) => {
     let list = [];
     let next;
@@ -221,26 +210,39 @@ module.exports = {
     }
     res.status(200).send(list);
   },
+
   dateList: (req, res) => {
-    console.log(req.body.value);
     let date = new Date(req.body.value);
-    console.log(date);
+    let thatDate = new Date(req.body.value);
+    let thatYear = String(thatDate).split(" ")[3];
     let answer;
-    if (date > getChristmas(thisYear)) {
-      answer = weekInChristmastide();
-    } else if (date > getNewYear(thisYear)) {
-      answer = weekInOrdinaryTime();
-    } else if (date > getPentecost(thisYear)) {
-      answer = weekInOrdinaryTime();
-    } else if (date > getEaster(thisYear)) {
-      answer = weekInEastertide();
-    } else if (date > getAshWed(thisYear)) {
-      answer = weekInLent();
-    } else if (date > getEpiphany(thisYear)) {
-      answer = weekInEpiphany();
+    if (date > getChristmas(thatYear)) {
+      answer = weekInChristmastide(date);
+    } else if (date > getNewYear(thatYear)) {
+      answer = weekInAdvent(date);
+    } else if (date > getPentecost(thatYear)) {
+      answer = weekInOrdinaryTime(date);
+    } else if (date > getEaster(thatYear)) {
+      answer = weekInEastertide(date);
+    } else if (date > getAshWed(thatYear)) {
+      answer = weekInLent(date);
+    } else if (date > getEpiphany(thatYear)) {
+      answer = weekInEpiphany(date);
     } else {
-      answer = weekInChristmastide();
+      answer = weekInChristmastide(date);
     }
-    res.status(200).send("money");
+    let theWeekday = fullWeekDays[String(thatDate).split(" ")[0]];
+    let monthName = fullMonthNames[String(thatDate).split(" ")[1]];
+    let day = String(thatDate).split(" ")[2];
+    let prettyDate = `${theWeekday}, ${monthName} ${day} ${thatYear}`;
+    res.status(200).send(`${String(prettyDate)} ${String(answer)}`);
   },
 };
+
+// let original_string = "Mon Jan 03 2022";
+// var string_copy = (" " + original_string).slice(1).split(" ")[3];
+// console.log(original_string, string_copy);
+
+// let date = new Date();
+// let weekday = (" " + String(date)).slice(1).split(" ")[0];
+// console.log(weekday);

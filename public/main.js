@@ -5,6 +5,7 @@ const today = document.getElementById("today");
 const seasonListBtn = document.getElementById("season-button");
 const upcomingList = document.getElementById("upcoming");
 const date = document.getElementById("input-date");
+const inputList = document.getElementById("input-list");
 
 const addToCenterList = (script) => {
   today.innerHTML = "";
@@ -17,6 +18,13 @@ const addToRightList = (script) => {
   const dateAdded = document.createElement("li");
   dateAdded.textContent = script;
   upcomingList.appendChild(dateAdded);
+};
+
+const addToLeftList = (script) => {
+  date.value = "";
+  const dateAdded = document.createElement("li");
+  dateAdded.textContent = script;
+  inputList.appendChild(dateAdded);
 };
 
 const currSeason = (event) => {
@@ -53,7 +61,14 @@ const getDateInput = () => {
   console.log(date.value);
   axios
     .post(`${mainURL}/get-date`, { value: date.value })
-    .then((res) => {})
+    .then((res) => {
+      console.log(res.data);
+      if (res.data.includes("Invalid Date")) {
+        alert("Invalid date");
+      } else {
+        addToLeftList(res.data);
+      }
+    })
     .catch((err) => console.log(err));
 };
 
