@@ -14,8 +14,16 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
 });
 
 const getMoney = () => {
-sequelize.query(`SELECT * FROM easters`)
-}
+  sequelize
+    .query(`SELECT * FROM easters WHERE this_year = 2022`)
+    .then((dbRes) => {
+      console.log(dbRes[0]);
+    })
+    .catch((err) => console.log(err));
+};
+
+getMoney();
+
 let easter = {
   2021: ["Sun", "Apr", "04", "2021"],
   2022: ["Sun", "Apr", "17", "2022"],
@@ -182,6 +190,14 @@ const weekInOrdinaryTime = (date) => {
 
 let daysAskedFor = [];
 
+/* 
+To do:
+Seed Database
+Deploy to Heroku
+Pie Chart w/ Explanation and Number of Weeks
+
+*/
+
 module.exports = {
   lastDate: (req, res) => {
     let answer;
@@ -207,22 +223,16 @@ module.exports = {
     let list = [];
     let next;
     if (today > getChristmas(thisYear)) {
-      console.log("xmas");
       next = 1;
     } else if (today > getNewYear(thisYear)) {
-      console.log("advent");
       next = 6;
     } else if (today > getPentecost(thisYear)) {
-      console.log("ordinary");
       next = 5;
     } else if (today > getEaster(thisYear)) {
-      console.log("easter");
       next = 4;
     } else if (today > getAshWed(thisYear)) {
-      console.log("lent");
       next = 3;
     } else if (today > getEpiphany(thisYear)) {
-      console.log("epiphany");
       next = 2;
     } else {
       next = 1;
@@ -263,18 +273,13 @@ module.exports = {
     let prettyDate = `${monthName} ${day}, ${thatYear}`;
     daysAskedFor.push(`${String(prettyDate)} ${String(answer)}`);
     res.status(200).send(daysAskedFor);
-    console.log(String(answer), date);
   },
   deleteValue: (req, res) => {
     const { id } = req.params;
-    console.log(id);
+    daysAskedFor.splice(id, 1);
+    res.status(200).send(daysAskedFor);
+  },
+  getList: (req, res) => {
+    res.status(200).send(daysAskedFor);
   },
 };
-
-// let original_string = "Mon Jan 03 2022";
-// var string_copy = (" " + original_string).slice(1).split(" ")[3];
-// console.log(original_string, string_copy);
-
-// let date = new Date();
-// let weekday = (" " + String(date)).slice(1).split(" ")[0];
-// console.log(weekday);

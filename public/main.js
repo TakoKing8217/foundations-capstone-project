@@ -6,7 +6,6 @@ const seasonListBtn = document.getElementById("season-button");
 const upcomingList = document.getElementById("upcoming");
 const date = document.getElementById("input-date");
 const inputList = document.getElementById("input-list");
-// const deleteBtn
 
 const addToCenterList = (script) => {
   today.innerHTML = "";
@@ -21,8 +20,7 @@ const addToRightList = (script) => {
   upcomingList.appendChild(dateAdded);
 };
 
-const currSeason = (event) => {
-  event.preventDefault();
+const currSeason = () => {
   axios
     .get(`${mainURL}/what-season-now`)
     .then((res) => {
@@ -52,7 +50,6 @@ const upcomingDates = () => {
 };
 
 const getDateInput = () => {
-  console.log(date.value);
   if (date.value == "") {
     alert("Invalid Date");
     return;
@@ -64,31 +61,38 @@ const getDateInput = () => {
       if (res.data == "") {
         alert("Invalid date");
       } else {
-        inputList.innerHTML = "";
         date.value = "";
-        for (let i = 0; i < res.data.length; i++) {
-          const dateAdded = document.createElement("div");
-          dateAdded.innerHTML = `<li>${res.data[i]}</li><button onclick="delDate(${i})">x</button> `;
-          inputList.appendChild(dateAdded);
-        }
+        getList();
       }
     })
     .catch((err) => console.log(err));
 };
 
-const getList = ()=> {
-  axios.get()
-}
+const getList = () => {
+  axios
+    .get(`${mainURL}/list`)
+    .then((res) => {
+      inputList.innerHTML = "";
+      for (let i = 0; i < res.data.length; i++) {
+        const dateAdded = document.createElement("div");
+        dateAdded.innerHTML = `<li>${res.data[i]}</li><button onclick="delDate(${i})">x</button> `;
+        inputList.appendChild(dateAdded);
+      }
+    })
+    .catch((err) => console.log(err));
+};
 
 const delDate = (num) => {
   axios
     .delete(`${mainURL}/list/${num}`)
-    .then(() => {})
+    .then(() => {
+      getList();
+    })
     .catch((err) => console.log(err));
 };
 
-seasonBtn.addEventListener("click", currSeason);
+// seasonBtn.addEventListener("click", currSeason);
 seasonListBtn.addEventListener("click", getDateInput);
 
-
+currSeason();
 upcomingDates();

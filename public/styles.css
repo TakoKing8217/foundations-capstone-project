@@ -35,7 +35,7 @@ h2 {
 
 #mid {
   width: 60%;
-  background-color: rgb(205, 205, 205);
+  background-color: rgb(255, 255, 255);
   /* display: flex; */
   /* justify-content: left; */
   /* flex-wrap: wrap; */
@@ -61,4 +61,11 @@ a {
 
 iframe {
   padding: 10px;
+}
+
+button {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  border-color: white solid;
 }
