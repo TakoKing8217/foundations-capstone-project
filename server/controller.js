@@ -1,3 +1,13 @@
+/* 
+
+To do:
+Seed Database
+Deploy to Heroku
+Pie Chart w/ Explanation and Number of Weeks
+Learn how to pull from Database
+
+*/
+
 require("dotenv").config();
 
 const { CONNECTION_STRING } = process.env;
@@ -81,26 +91,23 @@ let oneWeek = 604800000;
 let nextYear = String(new Date()).split(" ")[3];
 let nextYearA = nextYear++;
 
-// const getMoney = () => {
-//   sequelize
-//     .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
-//     .then((dbRes) => {
-//       const month = dbRes[0][0].easter_month;
-//       const date = dbRes[0][0].date_of_easter;
-//       const easterString = `Sun ${month} ${date} ${thisYear}`;
-//       return(easterString)
-//     })
-//     .catch((err) => console.log(err));
-// };
+const getMoney = () => {
+  return sequelize
+    .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
+    .then((dbRes) => {
+      console.log(dbRes[0])
+      return dbRes[0];
+    });
+};
 
-// console.log(getMoney());
+console.log(getMoney().then(res => res));
 /*
 
 
    .query(`SELECT * FROM easters WHERE this_year = 2022`)
     .then((dbRes) => {
       console.log(dbRes[0]);
-    })
+    }) 
 
 date_id: 1,
 week_day: 'Sun',
@@ -219,15 +226,6 @@ const weekInOrdinaryTime = (date) => {
 };
 
 let daysAskedFor = [];
-
-/* 
-
-To do:
-Seed Database
-Deploy to Heroku
-Pie Chart w/ Explanation and Number of Weeks
-
-*/
 
 module.exports = {
   lastDate: (req, res) => {
