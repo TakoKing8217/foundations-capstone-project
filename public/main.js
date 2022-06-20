@@ -22,7 +22,7 @@ const addToRightList = (script) => {
 
 const currSeason = () => {
   axios
-    .get(`${mainURL}/what-season-now`)
+    .get(`/what-season-now`)
     .then((res) => {
       addToCenterList(res.data);
     })
@@ -31,14 +31,14 @@ const currSeason = () => {
 
 const dateSeason = (date) => {
   axios
-    .get(`${mainURL}/add-date`, date)
+    .get(`/add-date`, date)
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err));
 };
 
 const upcomingDates = () => {
   axios
-    .get(`${mainURL}/upcoming`)
+    .get(`/upcoming`)
     .then((res) => {
       let datesArr = res.data;
       // res.body will be an array of information.
@@ -55,7 +55,7 @@ const getDateInput = () => {
     return;
   }
   axios
-    .post(`${mainURL}/get-date`, { value: date.value })
+    .post(`/get-date`, { value: date.value })
     .then((res) => {
       console.log(res.data);
       if (res.data == "") {
@@ -70,7 +70,7 @@ const getDateInput = () => {
 
 const getList = () => {
   axios
-    .get(`${mainURL}/list`)
+    .get(`/list`)
     .then((res) => {
       inputList.innerHTML = "";
       for (let i = 0; i < res.data.length; i++) {
@@ -84,7 +84,7 @@ const getList = () => {
 
 const delDate = (num) => {
   axios
-    .delete(`${mainURL}/list/${num}`)
+    .delete(`/list/${num}`)
     .then(() => {
       getList();
     })
