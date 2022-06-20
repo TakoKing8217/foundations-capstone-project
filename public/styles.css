@@ -1,6 +1,9 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+}
 header {
   background-color: black;
-  height: 150px;
+  height: 100px;
   padding: 0px;
   margin: 0px;
   display: flex;
@@ -12,12 +15,15 @@ section {
   display: flex;
   text-align: center;
 }
+
 li {
   font-family: "Times New Roman", Times, serif;
   padding: 10px;
+  margin: 10px;
   font-size: large;
   list-style-type: none;
 }
+
 h1 {
   color: white;
   display: flex;
@@ -28,29 +34,30 @@ h2 {
   color: white;
   font-size: xx-large;
 }
+
 #left-side {
   width: 20%;
-  background-color: rgb(124, 188, 125);
+  background-image: linear-gradient(green, yellow);
   height: 1200px;
 }
 
 #mid {
   width: 60%;
   background-color: rgb(255, 255, 255);
-  /* display: flex; */
-  /* justify-content: left; */
-  /* flex-wrap: wrap; */
   height: 1200px;
-  /* display: flex; */
+  background-image: linear-gradient(rgb(246, 162, 162), rgb(136, 136, 255));
+  padding: 10px;
+}
+#mid-baby {
   display: flex;
   justify-content: center;
 }
-
 #right-side {
   width: 20%;
-  background-color: rgb(124, 188, 125);
+  background-image: linear-gradient(green, yellow);
   height: 1200px;
 }
+
 #what-season {
   margin-top: 20px;
   height: 100px;
@@ -58,6 +65,7 @@ h2 {
   border-radius: 100%;
   background-color: silver;
 }
+
 a {
   color: white;
   text-underline-offset: unset;
@@ -68,8 +76,22 @@ iframe {
 }
 
 button {
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  border-color: white solid;
+  font-family: "Times New Roman", Times, serif;
+  background-color: rgb(181, 195, 92);
+  color: rgb(0, 0, 0);
+  border-radius: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+div {
+  padding: 10px;
+}
+
+form {
+  padding: 10px;
+}
+
+#season-button {
+  width: auto;
 }

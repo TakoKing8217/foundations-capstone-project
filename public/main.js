@@ -9,7 +9,7 @@ const inputList = document.getElementById("input-list");
 
 const addToCenterList = (script) => {
   today.innerHTML = "";
-  const dateAdded = document.createElement("div");
+  const dateAdded = document.createElement("li");
   dateAdded.textContent = script;
   today.appendChild(dateAdded);
 };

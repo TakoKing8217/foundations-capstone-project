@@ -91,16 +91,8 @@ let oneWeek = 604800000;
 let nextYear = String(new Date()).split(" ")[3];
 let nextYearA = nextYear++;
 
-// const getMoney = () => {
-//   return sequelize
-//     .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
-//     .then((dbRes) => {
-//       console.log(dbRes[0])
-//       return dbRes[0];
-//     });
-// };
-
-// console.log(getMoney().then(res => res));
+// 
+// console.log(result);
 /*
 
 
@@ -145,7 +137,6 @@ const getEpiphany = (year) => {
 
 const getEaster = (year) => {
   const easterDate = new Date(easter[year].join(" "));
-
   return easterDate;
 };
 
