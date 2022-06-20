@@ -81,19 +81,19 @@ let oneWeek = 604800000;
 let nextYear = String(new Date()).split(" ")[3];
 let nextYearA = nextYear++;
 
-const getMoney = () => {
-  sequelize
-    .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
-    .then((dbRes) => {
-      const month = dbRes[0][0].easter_month;
-      const date = dbRes[0][0].date_of_easter;
-      const easterString = `Sun ${month} ${date} ${thisYear}`;
-      send(easterString)
-    })
-    .catch((err) => console.log(err));
-};
+// const getMoney = () => {
+//   sequelize
+//     .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
+//     .then((dbRes) => {
+//       const month = dbRes[0][0].easter_month;
+//       const date = dbRes[0][0].date_of_easter;
+//       const easterString = `Sun ${month} ${date} ${thisYear}`;
+//       return(easterString)
+//     })
+//     .catch((err) => console.log(err));
+// };
 
-console.log(getMoney());
+// console.log(getMoney());
 /*
 
 
