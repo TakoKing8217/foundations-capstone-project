@@ -88,14 +88,19 @@ const getMoney = () => {
       const month = dbRes[0][0].easter_month;
       const date = dbRes[0][0].date_of_easter;
       const easterString = `Sun ${month} ${date} ${thisYear}`;
-      
+      send(easterString)
     })
     .catch((err) => console.log(err));
-  
 };
 
 console.log(getMoney());
 /*
+
+
+   .query(`SELECT * FROM easters WHERE this_year = 2022`)
+    .then((dbRes) => {
+      console.log(dbRes[0]);
+    })
 
 date_id: 1,
 week_day: 'Sun',
