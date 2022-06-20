@@ -13,16 +13,15 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
   },
 });
 
-const getMoney = () => {
-  sequelize
-    .query(`SELECT * FROM easters WHERE this_year = 2022`)
-    .then((dbRes) => {
-      console.log(dbRes[0]);
-    })
-    .catch((err) => console.log(err));
-};
+/*
 
-getMoney();
+date_id: 1,
+week_day: 'Sun',
+date_of_easter: 17,
+easter_month: 'Apr',
+this_year: 2022
+
+*/
 
 let easter = {
   2021: ["Sun", "Apr", "04", "2021"],
@@ -72,6 +71,40 @@ let fullMonthNames = {
   Dec: "December",
 };
 
+//some random declarations
+let today = new Date();
+let thisYear = String(new Date()).split(" ")[3];
+let smolDayOfTheWeek = String(new Date()).split(" ")[0];
+let dayOfTheWeek = fullWeekDays[smolDayOfTheWeek];
+let oneDay = 86400000;
+let oneWeek = 604800000;
+let nextYear = String(new Date()).split(" ")[3];
+let nextYearA = nextYear++;
+
+const getMoney = () => {
+  sequelize
+    .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
+    .then((dbRes) => {
+      const month = dbRes[0][0].easter_month;
+      const date = dbRes[0][0].date_of_easter;
+      const easterString = `Sun ${month} ${date} ${thisYear}`;
+      
+    })
+    .catch((err) => console.log(err));
+  
+};
+
+console.log(getMoney());
+/*
+
+date_id: 1,
+week_day: 'Sun',
+date_of_easter: 17,
+easter_month: 'Apr',
+this_year: 2022
+
+*/
+
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
@@ -100,8 +133,10 @@ const getEpiphany = (year) => {
 
 const getEaster = (year) => {
   const easterDate = new Date(easter[year].join(" "));
+
   return easterDate;
 };
+
 const getAshWed = (year) => {
   let ashDate = getEaster(year).addDays(-46);
   return ashDate;
@@ -110,16 +145,6 @@ const getPentecost = (year) => {
   let penteDate = getEaster(year).addDays(49);
   return penteDate;
 };
-
-//some random declarations
-let today = new Date();
-let thisYear = String(new Date()).split(" ")[3];
-let smolDayOfTheWeek = String(new Date()).split(" ")[0];
-let dayOfTheWeek = fullWeekDays[smolDayOfTheWeek];
-let oneDay = 86400000;
-let oneWeek = 604800000;
-let nextYear = String(new Date()).split(" ")[3];
-let nextYearA = nextYear++;
 
 // This object is used to pull upcoming dates.
 let possibleFuture = {
@@ -191,6 +216,7 @@ const weekInOrdinaryTime = (date) => {
 let daysAskedFor = [];
 
 /* 
+
 To do:
 Seed Database
 Deploy to Heroku
