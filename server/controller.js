@@ -464,3 +464,7 @@ Then why would it be giving trouble at 10 am?!
       .catch((err) => console.log("error seeding DB", err));
   },
 };
+
+let td = String(new Date()).split(" ");
+let anothertoday = new Date(`${td[3]} ${td[1]} ${td[2]}`);
+console.log(String(anothertoday));
