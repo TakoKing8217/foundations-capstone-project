@@ -394,7 +394,7 @@ module.exports = {
 
       INSERT INTO easters (week_day, date_of_easter, easter_month, this_year)
       VALUES 
-      ("Sun", 23, "Apr", 2000),
+      ('Sun', 23, 'Apr', 2000),
       ('Sun', 15, 'Apr', 2001), 
       ('Sun', 31, 'Mar', 2002), 
       ('Sun', 20, 'Apr', 2003), 
