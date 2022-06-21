@@ -98,6 +98,14 @@ const getNewYear = (year) => {
   );
   return newYearDate;
 };
+const getLastDayOfTheYear = (year) => {
+  const christmasDate = String(new Date(`December 25 ${year}`));
+  const christmasArr = christmasDate.split(" ");
+  let newYearDate = getChristmas(year).addDays(
+    -(22 + weekDays[christmasArr[0]])
+  );
+  return newYearDate;
+};
 
 const getEpiphany = (year) => {
   let epiphanyDate = getChristmas(year - 1).addDays(12);
@@ -307,7 +315,7 @@ module.exports = {
   },
   getThisYear: (req, res) => {
     let lastNYArr = String(getNewYear(thisYear - 1)).split(" ");
-    let comingNYArr = String(getNewYear(thisYear)).split(" ");
+    let comingNYArr = String(getLastDayOfTheYear(thisYear)).split(" ");
     console.log(lastNYArr);
     let answer = `This church calendar year is from ${
       fullMonthNames[lastNYArr[1]]
