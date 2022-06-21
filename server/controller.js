@@ -452,6 +452,6 @@ module.exports = {
         console.log("DB seeded!");
         res.sendstatus(200);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("error seeding DB", err));
   },
 };
