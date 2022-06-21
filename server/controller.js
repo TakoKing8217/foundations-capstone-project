@@ -20,17 +20,57 @@ const sequelize = new Sequelize(DATABASE_URL, {
 });
 
 let easter = {
-  2020: ["Sun", "Apr", "12", "2020"],
-  2021: ["Sun", "Apr", "04", "2021"],
-  2022: ["Sun", "Apr", "17", "2022"],
-  2023: ["Sun", "Apr", "09", "2023"],
-  2024: ["Sun", "Mar", "31", "2024"],
-  2025: ["Sun", "Apr", "20", "2025"],
-  2026: ["Sun", "Apr", "05", "2026"],
-  2027: ["Sun", "Mar", "28", "2027"],
-  2028: ["Sun", "Apr", "16", "2028"],
-  2029: ["Sun", "Apr", "01", "2029"],
-  2030: ["Sun", "Apr", "21", "2030"],
+  2000: ["Sun", 23, "Apr", 2000],
+  2001: ["Sun", 15, "Apr", 2001],
+  2002: ["Sun", 31, "Mar", 2002],
+  2003: ["Sun", 20, "Apr", 2003],
+  2004: ["Sun", 11, "Apr", 2004],
+  2005: ["Sun", 27, "Mar", 2005],
+  2006: ["Sun", 16, "Apr", 2006],
+  2007: ["Sun", 08, "Apr", 2007],
+  2008: ["Sun", 23, "Mar", 2008],
+  2009: ["Sun", 12, "Apr", 2009],
+  2010: ["Sun", 04, "Apr", 2010],
+  2011: ["Sun", 24, "Apr", 2011],
+  2012: ["Sun", 08, "Apr", 2012],
+  2013: ["Sun", 31, "Mar", 2013],
+  2013: ["Sun", 20, "Apr", 2013],
+  2015: ["Sun", 05, "Apr", 2015],
+  2016: ["Sun", 27, "Mar", 2016],
+  2017: ["Sun", 16, "Apr", 2017],
+  2018: ["Sun", 01, "Apr", 2018],
+  2019: ["Sun", 21, "Apr", 2019],
+  2020: ["Sun", 12, "Apr", 2020],
+  2021: ["Sun", 04, "Apr", 2021],
+  2022: ["Sun", 17, "Apr", 2022],
+  2023: ["Sun", 09, "Apr", 2023],
+  2024: ["Sun", 31, "Mar", 2024],
+  2025: ["Sun", 20, "Apr", 2025],
+  2026: ["Sun", 05, "Apr", 2026],
+  2027: ["Sun", 28, "Mar", 2027],
+  2028: ["Sun", 16, "Apr", 2028],
+  2029: ["Sun", 01, "Apr", 2029],
+  2030: ["Sun", 21, "Apr", 2030],
+  2031: ["Sun", 13, "Apr", 2031],
+  2032: ["Sun", 28, "Mar", 2032],
+  2033: ["Sun", 17, "Apr", 2033],
+  2034: ["Sun", 09, "Apr", 2034],
+  2035: ["Sun", 25, "Mar", 2035],
+  2036: ["Sun", 13, "Apr", 2036],
+  2037: ["Sun", 05, "Apr", 2037],
+  2038: ["Sun", 25, "Apr", 2038],
+  2039: ["Sun", 10, "Apr", 2039],
+  2040: ["Sun", 01, "Apr", 2040],
+  2041: ["Sun", 21, "Apr", 2041],
+  2042: ["Sun", 06, "Apr", 2042],
+  2043: ["Sun", 29, "Mar", 2043],
+  2044: ["Sun", 17, "Apr", 2044],
+  2045: ["Sun", 09, "Apr", 2045],
+  2046: ["Sun", 25, "Mar", 2046],
+  2047: ["Sun", 14, "Apr", 2047],
+  2048: ["Sun", 05, "Apr", 2048],
+  2049: ["Sun", 18, "Apr", 2049],
+  2050: ["Sun", 10, "Apr", 2050],
 };
 
 let weekDays = {
@@ -215,6 +255,7 @@ module.exports = {
     }
     res.status(200).send(answer);
   },
+
   upcomingDates: (req, res) => {
     let list = [];
     let next;
@@ -243,6 +284,7 @@ module.exports = {
     }
     res.status(200).send(list);
   },
+
   dateList: (req, res) => {
     let date = new Date(req.body.value).addDays(1);
     let thatDate = new Date(req.body.value).addDays(1);
@@ -269,14 +311,17 @@ module.exports = {
     daysAskedFor.push(`${String(prettyDate)} ${String(answer)}`);
     res.status(200).send(daysAskedFor);
   },
+
   deleteValue: (req, res) => {
     const { id } = req.params;
     daysAskedFor.splice(id, 1);
     res.status(200).send(daysAskedFor);
   },
+
   getList: (req, res) => {
     res.status(200).send(daysAskedFor);
   },
+
   getDegrees: (req, res) => {
     let adventLength = +(
       Math.floor(getChristmas(thisYear - 1) - getNewYear(thisYear - 1)) / oneDay
@@ -313,6 +358,7 @@ module.exports = {
         `<span style="color: rgb(50, 119, 50) ;">Pentecost</span>`,
       ]);
   },
+
   getThisYear: (req, res) => {
     let lastNYArr = String(getNewYear(thisYear - 1)).split(" ");
     let comingNYArr = String(getLastDayOfTheYear(thisYear)).split(" ");
@@ -324,6 +370,7 @@ module.exports = {
     }  ${comingNYArr[2]},  ${comingNYArr[3]}.`;
     res.status(200).send(answer);
   },
+
   whatIsEaster: (req, res) => {
     sequelize
       .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
@@ -331,5 +378,80 @@ module.exports = {
         console.log(dbRes[0]);
         res.status(200).send(dbRes[0]);
       });
+  },
+  seed: (req, res) => {
+    sequelize
+      .query(
+        `
+    drop table if exists easters
+    
+    CREATE TABLE easters (
+        date_id SERIAL PRIMARY KEY,
+        week_day VARCHAR(15) NOT NULL,
+        date_of_easter INTEGER NOT NULL,
+        easter_month VARCHAR(15) NOT NULL,
+        this_year INTEGER NOT NULL);
+
+      INSERT INTO easters (week_day, date_of_easter, easter_month, this_year)
+      VALUES 
+      ("Sun", 23, "Apr", 2000),
+      ('Sun', 15, 'Apr', 2001), 
+      ('Sun', 31, 'Mar', 2002), 
+      ('Sun', 20, 'Apr', 2003), 
+      ('Sun', 11, 'Apr', 2004), 
+      ('Sun', 27, 'Mar', 2005), 
+      ('Sun', 16, 'Apr', 2006), 
+      ('Sun', 08, 'Apr', 2007), 
+      ('Sun', 23, 'Mar', 2008), 
+      ('Sun', 12, 'Apr', 2009), 
+      ('Sun', 04, 'Apr', 2010), 
+      ('Sun', 24, 'Apr', 2011), 
+      ('Sun', 08, 'Apr', 2012), 
+      ('Sun', 31, 'Mar', 2013), 
+      ('Sun', 20, 'Apr', 2014), 
+      ('Sun', 05, 'Apr', 2015), 
+      ('Sun', 27, 'Mar', 2016), 
+      ('Sun', 16, 'Apr', 2017), 
+      ('Sun', 01, 'Apr', 2018), 
+      ('Sun', 21, 'Apr', 2019),
+      ('Sun', 12, 'Apr', 2020), 
+      ('Sun', 04, 'Apr', 2021), 
+      ('Sun', 17, 'Apr', 2022), 
+      ('Sun', 09, 'Apr', 2023),
+      ('Sun', 31, 'Mar', 2024),
+      ('Sun', 20, 'Apr', 2025),
+      ('Sun', 05, 'Apr', 2026),
+      ('Sun', 28, 'Mar', 2027),
+      ('Sun', 16, 'Apr', 2028),
+      ('Sun', 01, 'Apr', 2029),
+      ('Sun', 21, 'Apr', 2030),
+      ('Sun', 13, 'Apr', 2031),
+      ('Sun', 28, 'Mar', 2032),
+      ('Sun', 17, 'Apr', 2033),
+      ('Sun', 09, 'Apr', 2034),
+      ('Sun', 25, 'Mar', 2035),
+      ('Sun', 13, 'Apr', 2036),
+      ('Sun', 05, 'Apr', 2037),
+      ('Sun', 25, 'Apr', 2038),
+      ('Sun', 10, 'Apr', 2039),
+      ('Sun', 01, 'Apr', 2040),
+      ('Sun', 21, 'Apr', 2041),
+      ('Sun', 06, 'Apr', 2042),
+      ('Sun', 29, 'Mar', 2043),
+      ('Sun', 17, 'Apr', 2044),
+      ('Sun', 09, 'Apr', 2045),
+      ('Sun', 25, 'Mar', 2046),
+      ('Sun', 14, 'Apr', 2047),
+      ('Sun', 05, 'Apr', 2048),
+      ('Sun', 18, 'Apr', 2049),
+      ('Sun', 10, 'Apr', 2050),
+
+    `
+      )
+      .then(() => {
+        console.log("DB seeded!");
+        res.sendstatus(200);
+      })
+      .catch((err) => console.log(err));
   },
 };

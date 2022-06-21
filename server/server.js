@@ -23,6 +23,7 @@ const {
   getDegrees,
   getThisYear,
   whatIsEaster,
+  seed,
 } = controllerList;
 
 app.get("/what-season-now", lastDate);
@@ -33,6 +34,7 @@ app.get("/list", getList);
 app.get("/calendar-pieces", getDegrees);
 app.get("/what-church-year", getThisYear);
 app.get("/get-easter", whatIsEaster);
+app.post("/seed", seed)
 
 const port = process.env.PORT || 5005;
 app.listen(port, () => console.log(`Listening on ${port}`));
