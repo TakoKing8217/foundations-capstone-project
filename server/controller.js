@@ -305,6 +305,14 @@ module.exports = {
     } else {
       answer = weekInChristmastideNewYear(date);
     }
+    console.log(answer, date, thatDate, thatYear);
+    console.log(
+      String(answer),
+      String(date),
+      String(thatDate),
+      String(thatYear)
+    );
+
     let monthName = fullMonthNames[String(thatDate).split(" ")[1]];
     let day = String(thatDate).split(" ")[2];
     let prettyDate = `${monthName} ${day}, ${thatYear}`;
@@ -362,7 +370,6 @@ module.exports = {
   getThisYear: (req, res) => {
     let lastNYArr = String(getNewYear(thisYear - 1)).split(" ");
     let comingNYArr = String(getLastDayOfTheYear(thisYear)).split(" ");
-    console.log(lastNYArr);
     let answer = `This church calendar year is from ${
       fullMonthNames[lastNYArr[1]]
     }  ${lastNYArr[2]},  ${lastNYArr[3]} to ${
@@ -375,7 +382,6 @@ module.exports = {
     sequelize
       .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
       .then((dbRes) => {
-        console.log(dbRes[0]);
         res.status(200).send(dbRes[0]);
       });
   },
@@ -383,8 +389,8 @@ module.exports = {
     sequelize
       .query(
         `
-    drop table if exists easters
-    
+    drop table if exists easters;
+
     CREATE TABLE easters (
         date_id SERIAL PRIMARY KEY,
         week_day VARCHAR(15) NOT NULL,
@@ -444,7 +450,7 @@ module.exports = {
       ('Sun', 14, 'Apr', 2047),
       ('Sun', 05, 'Apr', 2048),
       ('Sun', 18, 'Apr', 2049),
-      ('Sun', 10, 'Apr', 2050),
+      ('Sun', 10, 'Apr', 2050);
 
     `
       )
