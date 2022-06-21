@@ -2,10 +2,6 @@
 
 To do:
 Seed Database
-Deploy to Heroku
-Pie Chart w/ Explanation and Number of Weeks
-Learn how to pull from Database
-
 */
 
 require("dotenv").config();
@@ -23,17 +19,8 @@ const sequelize = new Sequelize(DATABASE_URL, {
   },
 });
 
-/*
-
-date_id: 1,
-week_day: 'Sun',
-date_of_easter: 17,
-easter_month: 'Apr',
-this_year: 2022
-
-*/
-
 let easter = {
+  2020: ["Sun", "Apr", "12", "2020"],
   2021: ["Sun", "Apr", "04", "2021"],
   2022: ["Sun", "Apr", "17", "2022"],
   2023: ["Sun", "Apr", "09", "2023"],
@@ -90,24 +77,6 @@ let oneDay = 86400000;
 let oneWeek = 604800000;
 let nextYear = String(new Date()).split(" ")[3];
 let nextYearA = nextYear++;
-
-// 
-// console.log(result);
-/*
-
-
-   .query(`SELECT * FROM easters WHERE this_year = 2022`)
-    .then((dbRes) => {
-      console.log(dbRes[0]);
-    }) 
-
-date_id: 1,
-week_day: 'Sun',
-date_of_easter: 17,
-easter_month: 'Apr',
-this_year: 2022
-
-*/
 
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
@@ -238,7 +207,6 @@ module.exports = {
     }
     res.status(200).send(answer);
   },
-
   upcomingDates: (req, res) => {
     let list = [];
     let next;
@@ -267,7 +235,6 @@ module.exports = {
     }
     res.status(200).send(list);
   },
-
   dateList: (req, res) => {
     let date = new Date(req.body.value).addDays(1);
     let thatDate = new Date(req.body.value).addDays(1);
@@ -301,5 +268,60 @@ module.exports = {
   },
   getList: (req, res) => {
     res.status(200).send(daysAskedFor);
+  },
+  getDegrees: (req, res) => {
+    let adventLength = +(
+      Math.floor(getChristmas(thisYear - 1) - getNewYear(thisYear - 1)) / oneDay
+    );
+    let christmasTideLength = +(
+      Math.floor(getEpiphany(thisYear) - getChristmas(thisYear - 1)) / oneDay
+    );
+    let epiphanyLength = +(
+      Math.floor(getAshWed(thisYear) - getEpiphany(thisYear)) / oneDay
+    );
+    let lentLength = +(
+      Math.floor(getEaster(thisYear) - getAshWed(thisYear)) / oneDay
+    );
+    let eastertideLength = +(
+      Math.floor(getPentecost(thisYear) - getEaster(thisYear)) / oneDay
+    );
+    let pentecostLength = +(
+      Math.floor(getNewYear(thisYear) - getPentecost(thisYear)) / oneDay
+    );
+    res
+      .status(200)
+      .send([
+        adventLength,
+        christmasTideLength,
+        epiphanyLength,
+        lentLength,
+        eastertideLength,
+        pentecostLength,
+        `<span style="color: rgb(66, 66, 196) ;"> Advent</span>`,
+        `<span style="color: rgb(239, 235, 235) ;"> Christmastide</span>`,
+        `<span style="color: rgb(76, 165, 76) ;">Epiphany</span>`,
+        `<span style="color: rgb(147, 67, 147) ;">Lent</span>`,
+        `<span style="color: rgb(224, 226, 96) ;">Eastertide</span>`,
+        `<span style="color: rgb(50, 119, 50) ;">Pentecost</span>`,
+      ]);
+  },
+  getThisYear: (req, res) => {
+    let lastNYArr = String(getNewYear(thisYear - 1)).split(" ");
+    let comingNYArr = String(getNewYear(thisYear)).split(" ");
+    console.log(lastNYArr);
+    let answer = `This church calendar year is from ${
+      fullMonthNames[lastNYArr[1]]
+    }  ${lastNYArr[2]},  ${lastNYArr[3]} to ${
+      fullMonthNames[comingNYArr[1]]
+    }  ${comingNYArr[2]},  ${comingNYArr[3]}.`;
+    res.status(200).send(answer);
+  },
+  whatIsEaster: (req, res) => {
+    sequelize
+      .query(`SELECT * FROM easters WHERE this_year = ${thisYear}`)
+      .then((dbRes) => {
+        console.log(dbRes[0]);
+        res.status(200).send(dbRes[0]);
+      });
   },
 };

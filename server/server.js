@@ -14,14 +14,25 @@ app.get("/", (req, res) => {
 
 const controllerList = require(`./controller.js`);
 
-const { lastDate, dateList, upcomingDates, deleteValue, getList } =
-  controllerList;
+const {
+  lastDate,
+  dateList,
+  upcomingDates,
+  deleteValue,
+  getList,
+  getDegrees,
+  getThisYear,
+  whatIsEaster,
+} = controllerList;
 
 app.get("/what-season-now", lastDate);
 app.post("/get-date", dateList);
 app.get("/upcoming", upcomingDates);
 app.delete("/list/:id", deleteValue);
 app.get("/list", getList);
+app.get("/calendar-pieces", getDegrees);
+app.get("/what-church-year", getThisYear);
+app.get("/get-easter", whatIsEaster);
 
 const port = process.env.PORT || 5005;
 app.listen(port, () => console.log(`Listening on ${port}`));

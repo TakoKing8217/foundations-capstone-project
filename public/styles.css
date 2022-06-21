@@ -1,5 +1,5 @@
 body {
-  font-family: "Times New Roman", Times, serif;
+  font-family: Luminari, fantasy;
   background-color: black;
 }
 header {
@@ -18,7 +18,7 @@ section {
 }
 
 li {
-  font-family: "Times New Roman", Times, serif;
+  font-family: Jazz LET, fantasy;
   padding: 10px;
   margin: 10px;
   font-size: large;
@@ -39,24 +39,24 @@ h2 {
 #left-side {
   width: 20%;
   background-image: linear-gradient(green, yellow);
-  height: 900px;
+  height: auto;
 }
 
 #mid {
   width: 60%;
   background-color: rgb(255, 255, 255);
-  height: 900px;
+  height: auto;
   background-image: linear-gradient(rgb(246, 162, 162), rgb(136, 136, 255));
   padding: 10px;
 }
-#mid-baby {
+#mid-center {
   display: flex;
   justify-content: center;
 }
 #right-side {
   width: 20%;
   background-image: linear-gradient(green, yellow);
-  height: 900px;
+  height: auto;
 }
 
 #what-season {
@@ -77,12 +77,16 @@ iframe {
 }
 
 button {
-  font-family: "Times New Roman", Times, serif;
+  font-family: Jazz LET, fantasy;
   background-color: rgb(181, 195, 92);
   color: rgb(0, 0, 0);
   border-radius: 30px;
   width: 30px;
   height: 30px;
+  background-color: red;
+  animation-name: main;
+  animation-duration: 8s;
+  animation-iteration-count: 999;
 }
 
 div {
@@ -91,6 +95,34 @@ div {
 
 form {
   padding: 10px;
+}
+
+@keyframes main {
+  0% {
+    background-color: rgb(233, 100, 100);
+    left: 0px;
+    top: 0px;
+  }
+  25% {
+    background-color: rgb(237, 237, 103);
+    left: 200px;
+    top: 0px;
+  }
+  50% {
+    background-color: rgb(137, 137, 237);
+    left: 200px;
+    top: 200px;
+  }
+  75% {
+    background-color: rgb(128, 244, 128);
+    left: 0px;
+    top: 200px;
+  }
+  100% {
+    background-color: rgb(233, 100, 100);
+    left: 0px;
+    top: 0px;
+  }
 }
 
 #season-button {
