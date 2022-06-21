@@ -1,9 +1,3 @@
-/* 
-
-To do:
-Seed Database
-*/
-
 require("dotenv").config();
 
 const { DATABASE_URL } = process.env;
@@ -284,7 +278,15 @@ module.exports = {
     }
     res.status(200).send(list);
   },
+  /*
 
+GMT is 5 hours ahead of us. 
+Then why would it be giving trouble at 10 am?!
+
+
+
+
+*/
   dateList: (req, res) => {
     let date = new Date(req.body.value).addDays(1);
     let thatDate = new Date(req.body.value).addDays(1);
@@ -305,7 +307,8 @@ module.exports = {
     } else {
       answer = weekInChristmastideNewYear(date);
     }
-    console.log(answer, date, thatDate, thatYear);
+
+    console.log({ answer }, { date }, { thatDate }, { thatYear }, { today });
     console.log(
       String(answer),
       String(date),
