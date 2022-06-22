@@ -128,3 +128,17 @@ form {
 #season-button {
   width: auto;
 }
+
+footer {
+  background-color: black;
+  height: 50px;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#footer {
+  color: white;
+}
