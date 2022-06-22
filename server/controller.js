@@ -288,8 +288,8 @@ Then why would it be giving trouble at 10 am?!
 
 */
   dateList: (req, res) => {
-    let date = new Date(req.body.value).addDays(1);
-    let thatDate = new Date(req.body.value).addDays(1);
+    let date = new Date(req.body.value);
+    let thatDate = new Date(req.body.value);
     let thatYear = String(thatDate).split(" ")[3];
     let answer;
     if (date > getChristmas(thatYear)) {
